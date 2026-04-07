@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>餐饮海报提示词生成器 · 顶级设计版</title>
+<title>餐饮海报提示词生成器 · 商业爆款古月AI智能体</title>
 
 <style>
 body{
@@ -20,12 +20,6 @@ h1{
   background:linear-gradient(90deg,#ff6a00,#ee0979,#00f2fe);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:flow 6s linear infinite;
-}
-
-@keyframes flow{
-  0%{background-position:0%}
-  100%{background-position:200%}
 }
 
 .input-box{
@@ -33,13 +27,17 @@ h1{
   justify-content:center;
   gap:10px;
   margin-bottom:30px;
+  flex-wrap:wrap;
 }
 
-input{
-  width:300px;
+input,select{
   padding:10px;
   border:none;
   border-radius:8px;
+}
+
+input{
+  width:260px;
 }
 
 button{
@@ -51,32 +49,21 @@ button{
   cursor:pointer;
 }
 
-.list{
-  max-width:1100px;
-  margin:auto;
-}
-
 .item{
-  margin-bottom:20px;
+  margin-bottom:15px;
   padding:15px;
   border-radius:10px;
   background:rgba(0,0,0,0.5);
-
-  background-image:linear-gradient(120deg,#ff6a00,#ee0979,#00f2fe);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.copyBox{
-  text-align:center;
-  margin-bottom:20px;
+  line-height:1.6;
+  position:relative;
 }
 
 .copy{
+  margin-top:10px;
   padding:6px 14px;
   border:none;
   border-radius:6px;
-  background:linear-gradient(90deg,#ff6a00,#ee0979);
+  background:#ff6a00;
   color:#fff;
   cursor:pointer;
 }
@@ -85,34 +72,73 @@ button{
 
 <body>
 
-<h1>餐饮海报提示词生成器 · 顶级设计版</h1>
+<h1>餐饮海报提示词生成器 · 商业爆款终极版</h1>
 
 <div class="input-box">
-  <input id="food" placeholder="输入菜品，例如：螺蛳粉">
-  <button onclick="run()">生成海报提示词</button>
+  <input id="food" placeholder="输入菜品，例如：烤鱼">
+  
+  <select id="styleSelect">
+    <option value="">全部风格（随机）</option>
+    <option>国潮风</option>
+    <option>高端餐厅风</option>
+    <option>夜市烟火气</option>
+    <option>电商爆款风</option>
+    <option>极简ins风</option>
+  </select>
+
+  <button onclick="run()">生成爆款提示词</button>
 </div>
 
-<div id="box" class="list"></div>
+<div id="box"></div>
 
 <script>
 
+// 基础模块
 const layouts=[
-"居中主视觉构图","左图右文排版","右图左文排版",
-"上下分层排版","对角线动感构图","中轴对称排版",
-"大标题压图构图","局部放大特写构图","留白极简构图",
-"拼贴式排版","杂志风版式","卡片式分区布局"
+"中心聚焦构图","黄金分割构图","对角线冲击构图",
+"杂志封面布局","拼贴海报结构","极简留白构图",
+"卡片式分层排版","视觉爆点构图"
 ];
 
 const styles=[
-"国潮风","轻奢风","街头潮流风","日式清新风",
-"韩式极简风","夜市烟火气风格","复古港风",
-"高端餐厅质感风","电商爆款风","快餐活泼风"
+"国潮重彩风","高端餐厅摄影风","夜市烟火气",
+"电商爆款风","ins极简风","复古港风",
+"街头潮流风","日式清新风"
 ];
 
 const colors=[
-"暖橙红色调","高对比撞色","金黑高级配色",
-"清新绿色调","夜市霓虹配色","米色高级感",
-"红黄食欲配色","深色背景高亮主体"
+"红黄高食欲配色","黑金高级配色",
+"霓虹夜市色","暖橙灯光氛围",
+"深色背景高亮主体","自然绿色清新风"
+];
+
+const camera=[
+"微距镜头细节强化","45度商业摄影角度",
+"俯拍构图","电影级布光",
+"强对比光影","超近景特写"
+];
+
+const scenes=[
+"夜市摊位","高端餐厅","外卖封面",
+"街边小吃","电商主图","木质餐桌"
+];
+
+const selling=[
+"爆汁香辣","现炒现做","秘制配方",
+"每日新鲜出品","招牌爆款","销量冠军",
+"回头客首选","限时疯抢","人气必点"
+];
+
+const texture=[
+"油亮质感","热气腾腾","酱汁流动",
+"肉质纹理清晰","高清细节拉满",
+"光泽诱人"
+];
+
+const copywriting=[
+"第二份半价","限时特价","今日爆款",
+"满减优惠","套餐组合更划算",
+"进店必点"
 ];
 
 function rand(arr){
@@ -121,19 +147,19 @@ function rand(arr){
 
 function run(){
   let food=document.getElementById("food").value||"招牌美食";
+  let styleSelect=document.getElementById("styleSelect").value;
   let box=document.getElementById("box");
   box.innerHTML="";
 
   for(let i=0;i<20;i++){
 
-    let txt=`餐饮海报设计，完全正面展示，主题：${food}，版式：${rand(layouts)}，整体风格：${rand(styles)}，色彩方案：${rand(colors)}，画面主体为高清${food}特写，食材细节丰富，油亮质感，热气腾腾，强光影层次，增强食欲感，构图清晰，视觉冲击强，主标题突出“${food}”，字体设计感强，副标题描述产品卖点与口感，加入优惠信息如限时特价/第二份半价/套餐组合，文字排版有节奏感，信息分层明确，辅助元素包含装饰图形、图标、线条、底纹，增强设计感但不抢主体，整体商业写实风格，8K高清，适用于外卖、电商、门店宣传`;
+    let styleFinal = styleSelect || rand(styles);
+
+    let txt=`餐饮商业海报设计，主题：${food}，采用${rand(layouts)}，整体风格为${styleFinal}，色彩使用${rand(colors)}，拍摄方式为${rand(camera)}，场景设定在${rand(scenes)}，主体为高清${food}，呈现${rand(texture)}效果，突出${rand(selling)}卖点，画面具有强烈食欲冲击与商业转化力，光影层次丰富，视觉冲击强，主标题突出“${food}”，副标题强化口感与产品优势，加入营销信息如${rand(copywriting)}，信息排版清晰有节奏，整体商业广告级表现，适用于外卖平台、电商主图、门店引流，8K高清输出`;
 
     let div=document.createElement("div");
     div.className="item";
     div.innerText=txt;
-
-    let copyBox=document.createElement("div");
-    copyBox.className="copyBox";
 
     let btn=document.createElement("button");
     btn.className="copy";
@@ -145,10 +171,8 @@ function run(){
       setTimeout(()=>btn.innerText="复制",1500);
     }
 
-    copyBox.appendChild(btn);
-
+    div.appendChild(btn);
     box.appendChild(div);
-    box.appendChild(copyBox);
   }
 }
 
