@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>餐饮海报提示词生成器 · 商业爆款古月AI智能体</title>
+<title>餐饮海报提示词生成器 · 古月AU智能体</title>
 
 <style>
 body{
@@ -17,9 +17,6 @@ h1{
   text-align:center;
   font-size:28px;
   margin-bottom:20px;
-  background:linear-gradient(90deg,#ff6a00,#ee0979,#00f2fe);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
 }
 
 .input-box{
@@ -36,15 +33,11 @@ input,select{
   border-radius:8px;
 }
 
-input{
-  width:260px;
-}
-
 button{
   padding:10px 20px;
   border:none;
   border-radius:8px;
-  background:linear-gradient(90deg,#ff6a00,#ee0979);
+  background:#ff6a00;
   color:#fff;
   cursor:pointer;
 }
@@ -55,7 +48,6 @@ button{
   border-radius:10px;
   background:rgba(0,0,0,0.5);
   line-height:1.6;
-  position:relative;
 }
 
 .copy{
@@ -63,7 +55,7 @@ button{
   padding:6px 14px;
   border:none;
   border-radius:6px;
-  background:#ff6a00;
+  background:#ee0979;
   color:#fff;
   cursor:pointer;
 }
@@ -72,90 +64,70 @@ button{
 
 <body>
 
-<h1>餐饮海报提示词生成器 · 商业爆款古月AI智能体</h1>
+<h1>餐饮海报提示词生成器 · 古月AU智能体</h1>
 
 <div class="input-box">
   <input id="food" placeholder="输入菜品，例如：烤鱼">
-  
-  <select id="styleSelect">
-    <option value="">全部风格（随机）</option>
-    <option>国潮风</option>
-    <option>高端餐厅风</option>
-    <option>夜市烟火气</option>
-    <option>电商爆款风</option>
-    <option>极简ins风</option>
-  </select>
-
-  <button onclick="run()">生成爆款提示词</button>
+  <button onclick="run()">生成提示词</button>
 </div>
 
 <div id="box"></div>
 
 <script>
 
-// 基础模块
-const layouts=[
-"中心聚焦构图","黄金分割构图","对角线冲击构图",
-"杂志封面布局","拼贴海报结构","极简留白构图",
-"卡片式分层排版","视觉爆点构图"
-];
+// 超大变量池（核心）
+const layouts=["中心构图","对角线构图","杂志版式","拼贴布局","极简留白","卡片排版","黄金分割","视觉爆点"];
+const styles=["国潮","高端餐厅","夜市烟火","电商爆款","ins极简","复古港风","街头潮流","日式清新"];
+const colors=["红黄食欲色","黑金高级","霓虹夜市","暖橙光","深色高亮","清新绿"];
+const camera=["微距","俯拍","45度","电影光影","硬光","特写"];
+const scenes=["夜市","餐厅","外卖封面","街边摊","电商主图","木桌"];
+const selling=["爆汁","现炒","秘制","新品","招牌","销量冠军","回头客首选","限时抢"];
+const texture=["油亮","热气腾腾","酱汁流动","细节清晰","光泽诱人"];
+const copywriting=["第二份半价","限时特价","满减优惠","今日爆款","套餐组合","进店必点"];
+const mood=["食欲爆炸","视觉冲击","高级质感","强转化","吸睛引流"];
+const light=["柔光","侧光","逆光","强对比光","顶光","环境光"];
 
-const styles=[
-"国潮重彩风","高端餐厅摄影风","夜市烟火气",
-"电商爆款风","ins极简风","复古港风",
-"街头潮流风","日式清新风"
-];
-
-const colors=[
-"红黄高食欲配色","黑金高级配色",
-"霓虹夜市色","暖橙灯光氛围",
-"深色背景高亮主体","自然绿色清新风"
-];
-
-const camera=[
-"微距镜头细节强化","45度商业摄影角度",
-"俯拍构图","电影级布光",
-"强对比光影","超近景特写"
-];
-
-const scenes=[
-"夜市摊位","高端餐厅","外卖封面",
-"街边小吃","电商主图","木质餐桌"
-];
-
-const selling=[
-"爆汁香辣","现炒现做","秘制配方",
-"每日新鲜出品","招牌爆款","销量冠军",
-"回头客首选","限时疯抢","人气必点"
-];
-
-const texture=[
-"油亮质感","热气腾腾","酱汁流动",
-"肉质纹理清晰","高清细节拉满",
-"光泽诱人"
-];
-
-const copywriting=[
-"第二份半价","限时特价","今日爆款",
-"满减优惠","套餐组合更划算",
-"进店必点"
-];
-
+// 随机函数
 function rand(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
+// 打乱句子结构（关键）
+function buildSentence(food){
+  let parts=[
+    `主题：${food}`,
+    `风格：${rand(styles)}`,
+    `构图：${rand(layouts)}`,
+    `色彩：${rand(colors)}`,
+    `镜头：${rand(camera)}`,
+    `场景：${rand(scenes)}`,
+    `光影：${rand(light)}`,
+    `质感：${rand(texture)}`,
+    `卖点：${rand(selling)}`,
+    `氛围：${rand(mood)}`,
+    `营销：${rand(copywriting)}`
+  ];
+
+  // 随机打乱顺序（核心）
+  parts.sort(()=>Math.random()-0.5);
+
+  return `餐饮商业海报设计，${parts.join("，")}，主体为高清${food}，商业摄影级质感，信息层级清晰，适用于外卖、电商、门店引流，8K输出`;
+}
+
+// 主函数（带去重）
 function run(){
   let food=document.getElementById("food").value||"招牌美食";
-  let styleSelect=document.getElementById("styleSelect").value;
   let box=document.getElementById("box");
   box.innerHTML="";
 
-  for(let i=0;i<20;i++){
+  let set=new Set();
 
-    let styleFinal = styleSelect || rand(styles);
+  while(set.size < 20){
+    let txt = buildSentence(food);
+    set.add(txt);
+  }
 
-    let txt=`餐饮商业海报设计，主题：${food}，采用${rand(layouts)}，整体风格为${styleFinal}，色彩使用${rand(colors)}，拍摄方式为${rand(camera)}，场景设定在${rand(scenes)}，主体为高清${food}，呈现${rand(texture)}效果，突出${rand(selling)}卖点，画面具有强烈食欲冲击与商业转化力，光影层次丰富，视觉冲击强，主标题突出“${food}”，副标题强化口感与产品优势，加入营销信息如${rand(copywriting)}，信息排版清晰有节奏，整体商业广告级表现，适用于外卖平台、电商主图、门店引流，8K高清输出`;
+  set.forEach(txt=>{
 
     let div=document.createElement("div");
     div.className="item";
@@ -173,7 +145,7 @@ function run(){
 
     div.appendChild(btn);
     box.appendChild(div);
-  }
+  });
 }
 
 </script>
